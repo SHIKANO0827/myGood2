@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valorex Slide Generator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garant:ital,wght@0,300;0,400;0,500;1,300&family=Noto+Serif+JP:wght@300;400&display=swap">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --cream:      #FEF6F0;
+  --brown-dark: #1C1008;
+  --brown-mid:  #6B4F3A;
+  --gold:       #C4973E;
+  --gold-light: #E8D5B7;
+}
+
+body {
+  min-height: 100vh;
+  background: #241C18;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garant', 'Noto Serif JP', serif;
+}
+
+.card {
+  background: var(--cream);
+  width: 580px;
+  padding: 80px 68px;
+}
+
+/* ── ロゴエリア ── */
+.logo-area {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.logo-img {
+  height: 54px;
+  width: auto;
+  display: block;
+  margin: 0 auto 14px;
+}
+
+.brand-name {
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.52em;
+  text-transform: uppercase;
+  color: var(--brown-mid);
+}
+
+/* ── 区切り ── */
+.divider {
+  width: 56px;
+  height: 1px;
+  background: var(--gold);
+  margin: 0 auto 48px;
+}
+
+/* ── タイトル ── */
+.title {
+  font-size: 30px;
+  font-weight: 300;
+  color: var(--brown-dark);
+  letter-spacing: 0.05em;
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--brown-mid);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 52px;
+}
+
+/* ── フォーム ── */
+label {
+  display: block;
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+textarea {
+  width: 100%;
+  height: 116px;
+  border: 1px solid var(--gold-light);
+  background: #FFFAF7;
+  padding: 18px 20px;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--brown-dark);
+  resize: vertical;
+  outline: none;
+  letter-spacing: 0.05em;
+  line-height: 1.75;
+  margin-bottom: 32px;
+  transition: border-color 0.2s;
+}
+
+textarea:focus {
+  border-color: var(--gold);
+}
+
+textarea::placeholder {
+  color: var(--gold-light);
+  font-size: 16px;
+}
+
+/* ── ボタン ── */
+button {
+  width: 100%;
+  padding: 22px;
+  background: var(--brown-dark);
+  color: var(--gold);
+  border: none;
+  font-family: 'Cormorant Garant', serif;
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+button:hover:not(:disabled) {
+  background: var(--gold);
+  color: var(--brown-dark);
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ── ローディング ── */
+.loading {
+  display: none;
+  text-align: center;
+  margin-top: 28px;
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--brown-mid);
+  letter-spacing: 0.2em;
+}
+
+.dots::after {
+  content: '';
+  animation: dots 1.4s infinite;
+}
+
+@keyframes dots {
+  0%   { content: ''; }
+  33%  { content: '.'; }
+  66%  { content: '..'; }
+  100% { content: '...'; }
+}
+
+/* ── エラー ── */
+.error-msg {
+  display: none;
+  margin-top: 20px;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 14px;
+  color: #A0332A;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+/* ── 注記 ── */
+.note {
+  margin-top: 44px;
+  text-align: center;
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--gold-light);
+  letter-spacing: 0.18em;
+}
+</style>
+</head>
+
+<body>
+<div class="card">
+
+  <div class="logo-area">
+    <img class="logo-img"
+         src="fe7b576e4455358a0be7c2ed3465326f.avif"
+         alt="Valorex"
+         onerror="this.style.display='none'">
+    <div class="brand-name">Valorex</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="title">スライド生成</div>
+  <div class="subtitle">Instagram Slide Generator</div>
+
+  <label for="theme">テーマ</label>
+  <textarea
+    id="theme"
+    placeholder="例：本革の魅力、ギフトにおすすめ、財布の選び方..."
+  ></textarea>
+
+  <button id="btn" onclick="generate()">Generate Slides</button>
+
+  <div class="loading" id="loading">
+    スライドを生成中<span class="dots"></span>
+  </div>
+
+  <div class="error-msg" id="error-msg"></div>
+
+  <div class="note">5枚のスライドを自動生成します</div>
+
+</div>
+
+<script>
+async function generate() {
+  const theme = document.getElementById('theme').value.trim();
+  if (!theme) {
+    showError('テーマを入力してください');
+    return;
+  }
+
+  const btn    = document.getElementById('btn');
+  const loading = document.getElementById('loading');
+  const errEl   = document.getElementById('error-msg');
+
+  btn.disabled = true;
+  btn.textContent = 'Generating...';
+  loading.style.display = 'block';
+  errEl.style.display = 'none';
+
+  try {
+    const res = await fetch('/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ theme })
+    });
+
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      throw new Error(data.error || `HTTP ${res.status}`);
+    }
+
+    const html = await res.text();
+    document.open();
+    document.write(html);
+    document.close();
+
+  } catch (err) {
+    showError(err.message);
+    btn.disabled = false;
+    btn.textContent = 'Generate Slides';
+    loading.style.display = 'none';
+  }
+}
+
+function showError(msg) {
+  const el = document.getElementById('error-msg');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+// Enter キーで送信（Shift+Enter は改行）
+document.getElementById('theme').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    generate();
+  }
+});
+</script>
+</body>
+</html>
